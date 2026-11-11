@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aetherbound.example/schemas/game-data.schema.json",
+  "title": "Aetherbound Game Data",
+  "description": "Validation schemas for Aetherbound classes, monsters, elemental combos, and crafting recipes.",
+  "type": "object",
+  "required": ["classes", "monsters", "combos", "recipes"],
+  "properties": {
+    "classes": { "type": "array", "items": { "$ref": "#/$defs/class" }, "minItems": 4 },
+    "monsters": { "type": "array", "items": { "$ref": "#/$defs/monster" }, "minItems": 1 },
+    "combos": { "type": "array", "items": { "$ref": "#/$defs/combo" }, "minItems": 1 },
+    "recipes": { "type": "array", "items": { "$ref": "#/$defs/recipe" } }
+  },
+  "$defs": {
+    "element": { "type": "string", "enum": ["FLAME", "TIDE", "GALE", "TERRA"] },
+    "class": {
+      "type": "object",
+      "required": ["id", "name", "role", "element", "stats", "abilities"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["Tank", "Mage", "Agile Striker", "Support"] },
+        "element": { "$ref": "#/$defs/element" },
+        "stats": { "$ref": "#/$defs/stats" },
+        "abilities": { "type": "array", "items": { "$ref": "#/$defs/ability" }, "minItems": 1 },
+        "unison": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "stats": {
+      "type": "object",
+      "required": ["maxHp", "attack", "defense", "speed"],
+      "properties": {
+        "maxHp": { "type": "integer", "minimum": 1 },
+        "attack": { "type": "integer", "minimum": 0 },
+        "defense": { "type": "integer", "minimum": 0 },
+        "speed": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "ability": {
+      "type": "object",
+      "required": ["id", "name", "cooldownSeconds", "description"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "element": { "$ref": "#/$defs/element" },
+        "cooldownSeconds": { "type": "number", "minimum": 0 },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "monster": {
+      "type": "object",
+      "required": ["id", "name", "element", "maxHp", "capture", "drops"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "element": { "$ref": "#/$defs/element" },
+        "species": { "type": "string" },
+        "level": { "type": "integer", "minimum": 1 },
+        "maxHp": { "type": "integer", "minimum": 1 },
+        "resist": { "type": "number", "exclusiveMinimum": 0 },
+        "capture": {
+          "type": "object",
+          "required": ["baseRate", "subdueHpThreshold", "formula"],
+          "properties": {
+            "baseRate": { "type": "number", "minimum": 0, "maximum": 1 },
+            "subdueHpThreshold": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+            "formula": { "const": "((1 - currentHp / maxHp) * baseCaptureRate * statusMultiplier * itemBonus) / monsterResist" }
+          },
+          "additionalProperties": false
+        },
+        "drops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["material", "min", "max"],
+            "properties": {
+              "material": { "type": "string" },
+              "min": { "type": "integer", "minimum": 0 },
+              "max": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "combo": {
+      "type": "object",
+      "required": ["id", "elements", "name", "effects"],
+      "properties": {
+        "id": { "type": "string" },
+        "elements": { "type": "array", "items": { "$ref": "#/$defs/element" }, "minItems": 2, "maxItems": 2, "uniqueItems": true },
+        "name": { "type": "string" },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "description"],
+            "properties": {
+              "type": { "type": "string", "enum": ["damage", "blind", "burn", "root", "physical-defense-down", "accuracy-down", "expose"] },
+              "value": { "type": "number" },
+              "durationSeconds": { "type": "number", "minimum": 0 },
+              "description": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "recipe": {
+      "type": "object",
+      "required": ["id", "name", "category", "ingredients", "output"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["weapon", "armor", "consumable", "trap"] },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["material", "quantity"],
+            "properties": {
+              "material": { "type": "string" },
+              "quantity": { "type": "integer", "minimum": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "output": { "type": "string" },
+        "effects": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "classes": [
+    {"id":"riftwarden","name":"Riftwarden","role":"Tank","element":"TERRA","stats":{"maxHp":420,"attack":28,"defense":32,"speed":0.9},"abilities":[{"id":"aegis-break","name":"Aegis Break","element":"TERRA","cooldownSeconds":4.5,"description":"A shielded arc that deals 28 damage and restores 16 vitality."}],"unison":"Riftbreaker: frontline strike for 175 damage and restore 30 player vitality."},
+    {"id":"elementalist","name":"Elementalist","role":"Mage","element":"FLAME","stats":{"maxHp":340,"attack":38,"defense":15,"speed":1.0},"abilities":[{"id":"prismatic-surge","name":"Prismatic Surge","element":"FLAME","cooldownSeconds":4.5,"description":"Launch a flame-charged bolt for 38 damage."}],"unison":"Riftbreaker: frontline strike for 175 damage and restore 30 player vitality."},
+    {"id":"shadowdancer","name":"Shadowdancer","role":"Agile Striker","element":"GALE","stats":{"maxHp":360,"attack":34,"defense":19,"speed":1.3},"abilities":[{"id":"umbral-flurry","name":"Umbral Flurry","element":"GALE","cooldownSeconds":4.5,"description":"Rapid strike for 34 damage, followed by a 15-damage follow-up."}],"unison":"Riftbreaker: frontline strike for 175 damage and restore 30 player vitality."},
+    {"id":"animist","name":"Animist","role":"Support","element":"TIDE","stats":{"maxHp":380,"attack":22,"defense":22,"speed":1.0},"abilities":[{"id":"verdant-mend","name":"Verdant Mend","element":"TIDE","cooldownSeconds":4.5,"description":"Deal 22 thorn damage, restore 52 player vitality, and heal each companion for 28."}],"unison":"Riftbreaker: frontline strike for 175 damage and restore 30 player vitality."}
+  ],
+  "monsters": [
+    {"id":"brambleback","name":"Brambleback","element":"TERRA","species":"Veilwild guardian beast","level":6,"maxHp":620,"resist":1.15,"capture":{"baseRate":0.68,"subdueHpThreshold":0.15,"formula":"((1 - currentHp / maxHp) * baseCaptureRate * statusMultiplier * itemBonus) / monsterResist"},"drops":[{"material":"Bramble Scale","min":2,"max":3},{"material":"Aether Bone","min":1,"max":2},{"material":"Wild Core","min":1,"max":1}]}
+  ],
+  "combos": [
+    {"id":"steam-burst","elements":["FLAME","TIDE"],"name":"Steam Burst","effects":[{"type":"damage","value":78,"description":"High area-of-effect scalding damage."},{"type":"blind","value":40,"durationSeconds":5,"description":"Blinds the target and reduces accuracy by 40%."}]},
+    {"id":"wildfire-whirlwind","elements":["GALE","FLAME"],"name":"Wildfire Whirlwind","effects":[{"type":"burn","value":10,"durationSeconds":5,"description":"Spreads burn damage over time to adjacent foes."}]},
+    {"id":"mudslide-quake","elements":["TERRA","TIDE"],"name":"Mudslide Quake","effects":[{"type":"root","durationSeconds":3,"description":"Roots targets in place."},{"type":"physical-defense-down","value":30,"durationSeconds":6,"description":"Reduces physical defense by 30%."}]},
+    {"id":"dust-storm","elements":["TERRA","GALE"],"name":"Dust Storm","effects":[{"type":"accuracy-down","value":40,"durationSeconds":8,"description":"Reduces enemy accuracy."},{"type":"expose","durationSeconds":8,"description":"Exposes weak points for 8 seconds."}]}
+  ],
+  "recipes": [
+    {"id":"bramblethorn-edge","name":"Bramblethorn Edge","category":"weapon","ingredients":[{"material":"Bramble Scale","quantity":2},{"material":"Aether Bone","quantity":1}],"output":"Bramblethorn Edge","effects":["Strike damage +12"]},
+    {"id":"frostbound-grips","name":"Frostbound Grips","category":"armor","ingredients":[{"material":"Frost Shard","quantity":2},{"material":"Aether Bone","quantity":1}],"output":"Frostbound Grips","effects":["Aether-Snare capture chance +35%"]},
+    {"id":"lumen-bait","name":"Lumen Bait","category":"consumable","ingredients":[{"material":"Lumen Herb","quantity":2}],"output":"Lumen Bait","effects":["Next capture attempt item bonus ×1.35"]},
+    {"id":"aether-trap","name":"Aether Trap","category":"trap","ingredients":[{"material":"Wild Core","quantity":1},{"material":"Bramble Scale","quantity":1}],"output":"Aether Trap","effects":["Next capture attempt item bonus ×1.5"]}
+  ]
+}
